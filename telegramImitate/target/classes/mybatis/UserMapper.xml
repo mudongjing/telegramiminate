@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mybatis.mapper.UserMapper">
+    <resultMap id="SimpleUserMap" type="com.example.netty.pojo.simple.SimpleUser">
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+    <select id="getUser" parameterType="String" resultType="com.example.demo.pojo.User">
+        select `user_id`,`user_name` ,`user_friends` ,`friends_type` ,`user_groups` ,`group_type`, `join_group` ,`join_type` from user
+        where `user_name`=#{userName}
+    </select>
+    <update id="updateUser" parameterType="com.example.demo.pojo.User">
+        update `user`
+        set  userName
+     userPassword
+     userFriends
+    friendsType
+     userGroups
+     groupType
+     joinGroup
+     joinType
+    </update>
+    <select id="selectAllUserName" resultMap="SimpleUserMap">
+        select `user_name` from user
+    </select>
+    <select id="queryUserId" parameterType="String" resultType="Integer">
+        SELECT `user_id` FROM user WHERE `user_name`=#{userName}
+    </select>
+    <select id="checkDuplicate" parameterType="String" resultType="Integer">
+        select count(*) from user where `user_name`=#{userName}
+    </select>
+    <update id="createMessageTable" parameterType="String">
+        CREATE TABLE IF NOT EXISTS message_${tableName} (
+        `message_id` int(10) not null auto_increment,
+        `message_content` varchar(255) not null,
+        `message_type` int(2) not null,
+        `message_creator` int(10) not null,
+        `message_date`  date not null,
+        `message_time` time not null,
+        primary key(`message_id`)
+        )engine=InnoDB default charset=utf8
+    </update>
+    <insert id="insertUserItem" parameterType="com.example.demo.pojo.User" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO `user`(
+        `user_name`,`user_password`,`user_friends`,`friends_type`,`user_groups`,`group_type`
+        )values(
+        #{userName},#{userPassword},#{userFriends},#{friendsType},#{userGroups},#{groupType}
+        )
+    </insert>
+    <update id="createForFriends" parameterType="String">
+        CREATE TABLE IF NOT EXISTS ${tableName}(
+        `message_id` int(10) not null auto_increment ,
+        `message_creator` int(10) not null,
+        `message_content` varchar(255) not null,
+        `message_type` int(2) not null,
+        `message_date`  date not null,
+        `message_time` time not null,
+        primary key(`message_id`)
+        )engine=InnoDB default charset=utf8
+    </update>
+    <update id="updateJoinGroup" parameterType="com.example.demo.pojo.User">
+        update user
+        set `join_group`=#{joinGroup},`join_type`=#{joinType}
+        where `user_id`=#{userId}
+    </update>
+    <update id="updateCreatedGroup" parameterType="com.example.demo.pojo.User">
+        update user
+        set `user_groups`=#{userGroups},`group_type`=#{groupType}
+        where `user_id`=#{userId}
+    </update>
+    <select id="judgeForTable" parameterType="String" resultType="java.util.Map">
+        show tables like #{tableName}
+    </select>
+    <insert id="insertUserMessage" parameterType="com.example.demo.pojo.expand.UserMessage" useGeneratedKeys="true" keyProperty="messageId">
+        INSERT INTO ${tableName}(
+        `message_content`, `message_type`,`message_creator`,`message_date`,`message_time`
+        )VALUES (
+        #{messageContent},#{messageType},#{messageCreator},#{messageDate},#{messageTime}
+        )
+    </insert>
+    <select id="getUserPassword" parameterType="String" resultType="String">
+        SELECT `user_password` from user where `user_name`=#{userName}
+    </select>
+    <insert id="registerUser" parameterType="com.example.demo.pojo.User">
+        INSERT INTO user(
+        `user_name`,`user_password`,`friends_type`,`group_type`,`join_type`
+        )VALUES (
+        #{userName},#{userPassword},0,0,0
+        )
+    </insert>
+    <update id="modifyPassword" parameterType="com.example.demo.pojo.User">
+        UPDATE user set `user_password`=#{userPassword} where `user_name`=#{userName}
+    </update>
+    <select id="hasUser" parameterType="com.example.demo.pojo.User" resultType="Integer">
+        select count(*) from user where `user_name`=#{userName} and `user_password`=#{userPassword}
+    </select>
+</mapper>
+

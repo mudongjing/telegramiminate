@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  mvc:
+    view:
+      suffix: .html
+      prefix: /templatets/
+  redis:
+    host: 47.99.163.246
+    password: pi31415926
+    port: 6389
+    jedis:
+      pool:
+        min-idle: 5
+        max-idle: 10
+    timeout: 10000
+  datasource:
+    username: root_wcd
+    password: Pi_31415926
+    url: jdbc:mysql://rm-bp13j3k8j7222149cnm.mysql.rds.aliyuncs.com:3306/tele
+  web:
+    resources:
+      static-locations: classpath:/static/
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.example.demo.pojo
+  mapper-locations: classpath:/mybatis/*.xml
+logging:
+  level:
+    com.example.demo: debug
+
+redis:
+  port: 6389
+  host: 47.99.163.246
+  password: pi31415926
+  dbs: 0,1,2,3,4,5,6,7,8,9

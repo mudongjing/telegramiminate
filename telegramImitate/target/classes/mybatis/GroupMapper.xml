@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mybatis.mapper.GroupMapper">
+    <select id="getGroup" parameterType="String" resultType="com.example.demo.pojo.Group">
+        select `group_id`,`group_name` ,`group_creator` ,`group_members` ,
+        `group_message` ,  `group_description` from `groupItemTable` where `group_name`=#{name}
+    </select>
+    <update id="updateMessageTableAndMemberFile" parameterType="com.example.demo.pojo.Group">
+        update `groupItemTable`
+        set `group_message`=#{groupMessage},`group_members`=#{groupMembers}
+        where `group_id`=#{groupId}
+    </update>
+    <select id="getGroupId" parameterType="String" resultType="Integer">
+        select `group_id` from `groupItemTable` where `group_name`=#{name}
+    </select>
+    <insert id="insertGroupItem" parameterType="com.example.demo.pojo.Group" useGeneratedKeys="true" keyProperty="groupId">
+        insert into `groupItemTable`(`group_name`,`group_creator`,`group_members`,`group_message`,`group_description`)
+        values(#{groupName},#{groupCreator},#{groupMembers},#{groupMessage},#{groupDescription})
+    </insert>
+    <select id="queryGroupName" parameterType="String" resultType="Integer">
+        select COUNT(*) from `groupItemTable` WHERE `group_name`=#{name}
+    </select>
+    <select id="queryMember" parameterType="String" resultType="String">
+        select `group_members` from `groupItemTable` WHERE `group_name`=#{name}
+    </select>
+    <select id="getCreator" parameterType="String" resultType="Integer">
+        SELECT `group_creator` from `groupItemTable` WHERE `group_name`=#{name}
+    </select>
+</mapper>

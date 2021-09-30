@@ -1,0 +1,10 @@
+com\example\demo\DemoApplication.class
+com\example\demo\config\RedisConfig.class
+com\example\demo\redis\controller\UserRedisController.class
+com\example\demo\sql\controller\UserMysqlController.class
+com\example\demo\mybatis\mapper\UserMapper.class
+com\example\demo\pojo\Group.class
+com\example\demo\mybatis\service\impl\UserServiceImpl.class
+com\example\demo\mybatis\service\UserService.class
+com\example\demo\pojo\Channel.class
+com\example\demo\pojo\User.class
